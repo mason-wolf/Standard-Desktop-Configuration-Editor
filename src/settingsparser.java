@@ -42,10 +42,6 @@ public class settingsparser {
 		BufferedWriter bw = new BufferedWriter(fw);
 		bw.append("WORKING_DIRECTORY");
 		bw.append("\nWORKING_FILE");
-		bw.append("\nCOMPILER");
-		bw.append("\nBUILD_PARAMETERS");
-		bw.append("\nRUNTIME_PARAMETERS");
-		bw.append("\nDEFAULT_LANGUAGE");
 		bw.close();
 		fw.close();
 		}

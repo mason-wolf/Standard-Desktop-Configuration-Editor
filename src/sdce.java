@@ -129,6 +129,10 @@ public class sdce extends JFrame {
 	 		if(response == JOptionPane.NO_OPTION) {}
 	 		else if(response == JOptionPane.YES_OPTION) {
 	 			textArea.setText("");
+         settingsparser filePathCleanup = new settingsparser();
+         filePathCleanup.Set("WORKING_FILE", "");
+         filePathCleanup.Set("WORKING_DIRECTORY", "");
+         setTitle("SDC Editor 1.0 ");
 	 		}
 	 	}
 	 });
@@ -137,6 +141,9 @@ public class sdce extends JFrame {
 	 NewWindowItem.addActionListener(new ActionListener() {
 	 	public void actionPerformed(ActionEvent e) {
 	 		new sdce().setVisible(true);	
+       settingsparser newWindowSettings = new settingsparser();
+       newWindowSettings.Set("WORKING_FILE", "");
+       newWindowSettings.Set("WORKING_DIRECTORY", "");
 	 	}
 	 });
 
@@ -199,7 +206,7 @@ public class sdce extends JFrame {
       settingsparser wf = new settingsparser();
       String WorkingFile = wf.Get("WORKING_FILE");
       System.out.println(WorkingFile);
-      if(WorkingFile.isEmpty()) {
+      if(WorkingFile.toString().isEmpty()) {
         
 JFrame parentFrame = new JFrame();
 JFileChooser fileChooser = new JFileChooser();
@@ -223,6 +230,7 @@ if (userSelection == JFileChooser.APPROVE_OPTION) {
     	fw.write(contents);
     	fw.close();
     	System.out.println("\nFile saved: " + fileToSave.toString());
+      
     }
     catch (Exception SaveException) {}
     
@@ -321,7 +329,7 @@ if (userSelection == JFileChooser.APPROVE_OPTION) {
    ImageIcon startIcon = new ImageIcon(
    	sdce.class.getResource("start.png"));
 
-   	/*
+   	
    Action newAction = new AbstractAction("New", newIcon) {
    	public void actionPerformed(ActionEvent e) {
    		for(ActionListener a: NewMenuItem.getActionListeners()) {
@@ -331,7 +339,7 @@ if (userSelection == JFileChooser.APPROVE_OPTION) {
    		}
    	}
    };
-*/
+
    Action openAction = new AbstractAction("Open", openIcon) {
    	public void actionPerformed(ActionEvent e) {
    		for(ActionListener a: OpenItem.getActionListeners()) {
@@ -470,7 +478,7 @@ Action startAction = new AbstractAction("Start", startIcon) {
       toolBar.setLayout(new FlowLayout(FlowLayout.LEFT));
   	 toolBar.add(Box.createHorizontalGlue());
 	 toolBar.setPreferredSize(new Dimension(50,30));    
-   	//  toolBar.add(newAction);
+   	  toolBar.add(newAction);
       toolBar.add(openAction);
       toolBar.add(saveAction);
       toolBar.add(buildAction);
@@ -499,13 +507,10 @@ Action startAction = new AbstractAction("Start", startIcon) {
 			System.out.println("Removed " + wf + " as working file.");
       
       // restablish settings
-      String compiler = Settings.Get("COMPILER");
-      String buildParameters = Settings.Get("BUILD_PARAMETERS");
-      String language = Settings.Get("DEFAULT_LANGUAGE");
+
       Settings.Set("WORKING_FILE", "");
-      Settings.Set("BUILD_PARAMETERS", buildParameters);
-      Settings.Set("DEFAULT_LANGUAGE", language);
-      Settings.Set("COMPILER", compiler);
+      Settings.Set("WORKING_DIRECTORY", "");
+
       
       	}
       });
@@ -542,6 +547,8 @@ public static String removeExtension(String s) {
       SwingUtilities.invokeLater(new Runnable() {
          public void run() {
             new sdce().setVisible(true);
+            settingsparser properties = new settingsparser();
+            properties.FileCheck();
          }
       });
    }
