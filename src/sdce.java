@@ -36,25 +36,10 @@
  * 
  *  https://build.dev.kthcorp.com/mirror/oracle.com/java/7/
  */
-
+ 
+import org.fife.ui.rtextarea.*;
+import org.fife.ui.rsyntaxtextarea.*;
 import javax.swing.*;
-import org.fife.ui.rtextarea.*;
-import org.fife.ui.rsyntaxtextarea.*;
-import java.awt.*;
-import java.awt.event.ActionListener;
-import java.awt.event.*;
-import java.awt.BorderLayout;
-import java.awt.Container;
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import javax.swing.JButton;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import java.util.Scanner; import javax.swing.*;
-import org.fife.ui.rtextarea.*;
-import org.fife.ui.rsyntaxtextarea.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.*;
@@ -320,6 +305,7 @@ if (userSelection == JFileChooser.APPROVE_OPTION) {
   });
   
 //	preparing to create tool bar
+
    ImageIcon newIcon = new ImageIcon(
    	sdce.class.getResource("new.png"));
 
@@ -335,7 +321,7 @@ if (userSelection == JFileChooser.APPROVE_OPTION) {
    ImageIcon startIcon = new ImageIcon(
    	sdce.class.getResource("start.png"));
 
-   	
+   	/*
    Action newAction = new AbstractAction("New", newIcon) {
    	public void actionPerformed(ActionEvent e) {
    		for(ActionListener a: NewMenuItem.getActionListeners()) {
@@ -345,7 +331,7 @@ if (userSelection == JFileChooser.APPROVE_OPTION) {
    		}
    	}
    };
-
+*/
    Action openAction = new AbstractAction("Open", openIcon) {
    	public void actionPerformed(ActionEvent e) {
    		for(ActionListener a: OpenItem.getActionListeners()) {
@@ -382,7 +368,7 @@ if (userSelection == JFileChooser.APPROVE_OPTION) {
        JScrollPane sp = new JScrollPane(console);
        console.setBackground(new Color(8,44,191));
        console.setForeground(Color.green);
-       buildFrame.setIconImage(new ImageIcon(getClass().getResource("sdce.png")).getImage());
+       buildFrame.setIconImage(new ImageIcon(getClass().getResource("..\\resources\\sdce.png")).getImage());
        buildPanel.add(sp);
        buildFrame.setSize(900,750);
        buildFrame.setResizable(false);
@@ -484,7 +470,7 @@ Action startAction = new AbstractAction("Start", startIcon) {
       toolBar.setLayout(new FlowLayout(FlowLayout.LEFT));
   	 toolBar.add(Box.createHorizontalGlue());
 	 toolBar.setPreferredSize(new Dimension(50,30));    
-   	  toolBar.add(newAction);
+   	//  toolBar.add(newAction);
       toolBar.add(openAction);
       toolBar.add(saveAction);
       toolBar.add(buildAction);
