@@ -2,7 +2,7 @@
  * Copyright (c) 2016 Mason H. Wolf, All rights reserved.
  *
  *	 Standard Desktop Configuration Editor Version 1.0
- *	 Written By  Mason H. Wolf
+ *	 Written By Staff Sergeant Mason H. Wolf
  * 	 Client Systems Technician
  * 	 325th Communications Squadron
  * 	 Tyndall Air Force Base, Florida
@@ -132,6 +132,13 @@ public class sdce extends JFrame {
          settingsparser filePathCleanup = new settingsparser();
          filePathCleanup.Set("WORKING_FILE", "");
          filePathCleanup.Set("WORKING_DIRECTORY", "");
+         String newSessionlwf = filePathCleanup.Get("LAST_WORKING_FILE");
+         if(newSessionlwf == null) {
+         filePathCleanup.Set("LAST_WORKING_FILE", "");
+         }
+         else {
+           filePathCleanup.Set("LAST_WORKING_FILE", newSessionlwf.toString());
+         }
          setTitle("SDC Editor 1.0 ");
 	 		}
 	 	}
@@ -144,6 +151,13 @@ public class sdce extends JFrame {
        settingsparser newWindowSettings = new settingsparser();
        newWindowSettings.Set("WORKING_FILE", "");
        newWindowSettings.Set("WORKING_DIRECTORY", "");
+       String newWindowlwf = newWindowSettings.Get("LAST_WORKING_FILE");
+       if(newWindowlwf == null) {
+         newWindowSettings.Set("LAST_WORKING_FILE", "");
+       }
+       else {
+         newWindowSettings.Set("LAST_WORKING_FILE", newWindowlwf.toString());
+       }
 	 	}
 	 });
 
@@ -192,6 +206,12 @@ public class sdce extends JFrame {
 		textArea.read(br, null);
 		br.close();
 		textArea.setCaretPosition(0);
+        String lwf = Settings.Get("LAST_WORKING_FILE");
+        System.out.println("last working file: " + "'" + lwf + "'");
+        if(lwf.isEmpty()) {
+          Settings.Set("LAST_WORKING_FILE", c.getSelectedFile().toString());
+        }
+
     		Settings.Set("WORKING_FILE", c.getSelectedFile().toString());
       }
       catch (Exception error) {}
