@@ -2,7 +2,7 @@
  * Copyright (c) 2016 Mason H. Wolf, All rights reserved.
  *
  *	 Standard Desktop Configuration Editor Version 1.0
- *	 Written By Staff Sergeant Mason H. Wolf
+ *	 Written By  Mason H. Wolf
  * 	 Client Systems Technician
  * 	 325th Communications Squadron
  * 	 Tyndall Air Force Base, Florida
@@ -89,7 +89,7 @@ public class sdce extends JFrame {
 	 JMenu FileMenu = new JMenu("File");
 	 JMenu EditMenu = new JMenu("Edit");
 	 final JMenuItem NewMenuItem = new JMenuItem("New Session");
-	 JMenuItem NewWindowItem = new JMenuItem("New Window");
+
 	 final JMenuItem OpenItem = new JMenuItem("Open");
 	 final JMenuItem SaveItem = new JMenuItem("Save");
       JMenuItem SaveAsItem = new JMenuItem("Save As..");
@@ -98,7 +98,7 @@ public class sdce extends JFrame {
 	 FileMenu.add(NewMenuItem);
 	 KeyStroke newSession = KeyStroke.getKeyStroke(KeyEvent.VK_N, KeyEvent.CTRL_DOWN_MASK);
 	 NewMenuItem.setAccelerator(newSession);
-	 FileMenu.add(NewWindowItem);
+
 	 FileMenu.add(OpenItem);
 	 KeyStroke open = KeyStroke.getKeyStroke(KeyEvent.VK_O, KeyEvent.CTRL_DOWN_MASK);
 	 OpenItem.setAccelerator(open);
@@ -144,24 +144,7 @@ public class sdce extends JFrame {
 	 	}
 	 });
 
-	 // open new window
-	 NewWindowItem.addActionListener(new ActionListener() {
-	 	public void actionPerformed(ActionEvent e) {
-	 		new sdce().setVisible(true);	
-       settingsparser newWindowSettings = new settingsparser();
-       newWindowSettings.Set("WORKING_FILE", "");
-       newWindowSettings.Set("WORKING_DIRECTORY", "");
-       String newWindowlwf = newWindowSettings.Get("LAST_WORKING_FILE");
-       if(newWindowlwf == null) {
-         newWindowSettings.Set("LAST_WORKING_FILE", "");
-       }
-       else {
-         newWindowSettings.Set("LAST_WORKING_FILE", newWindowlwf.toString());
-       }
-	 	}
-	 });
 
-	
     // open file 
     OpenItem.addActionListener(new ActionListener() {
     public void actionPerformed(ActionEvent e) {
@@ -183,35 +166,12 @@ public class sdce extends JFrame {
        
        setTitle("SDC Editor 1.0 " + file.toString());
        
-       /*	 alternative way to open and read the file
-         	 StringBuffer buffer;
-         	 buffer = new StringBuffer();
-       try {
-       	FileReader reader;
-		reader = new FileReader(file);
-		int i = 1;
-  while(i!=-1)
-            {
-                i=reader.read();
-                char ch=(char) i;
-                buffer.append(ch);
-
-            }
-		textArea.setText(buffer.toString());
-		*/
-		
 		try {
 		FileReader reader = new FileReader(file);
 		BufferedReader br = new BufferedReader(reader);
 		textArea.read(br, null);
 		br.close();
 		textArea.setCaretPosition(0);
-        String lwf = Settings.Get("LAST_WORKING_FILE");
-        System.out.println("last working file: " + "'" + lwf + "'");
-        if(lwf.isEmpty()) {
-          Settings.Set("LAST_WORKING_FILE", c.getSelectedFile().toString());
-        }
-
     		Settings.Set("WORKING_FILE", c.getSelectedFile().toString());
       }
       catch (Exception error) {}
@@ -225,7 +185,8 @@ public class sdce extends JFrame {
     public void actionPerformed(ActionEvent e) {
       settingsparser wf = new settingsparser();
       String WorkingFile = wf.Get("WORKING_FILE");
-      System.out.println(WorkingFile);
+
+
       if(WorkingFile.toString().isEmpty()) {
         
 JFrame parentFrame = new JFrame();
@@ -244,13 +205,14 @@ if (userSelection == JFileChooser.APPROVE_OPTION) {
     String directory = location.getAbsolutePath();
     Settings.Set("WORKING_DIRECTORY", directory);
     Settings.Set("WORKING_FILE", fileToSave.toString());
+
     String contents = textArea.getText();
     try {
     	FileWriter fw = new FileWriter(fileToSave);
     	fw.write(contents);
     	fw.close();
     	System.out.println("\nFile saved: " + fileToSave.toString());
-      
+       setTitle("SDC Editor 1.0 " + fileToSave.toString());
     }
     catch (Exception SaveException) {}
     
@@ -259,15 +221,17 @@ if (userSelection == JFileChooser.APPROVE_OPTION) {
       }
       else {
         String fileToSave = wf.Get("WORKING_FILE");
-        System.out.println(fileToSave);
             try {
     	FileWriter fw = new FileWriter(fileToSave);
       String contents = textArea.getText();
     	fw.write(contents);
     	fw.close();
+
      System.out.println("\nFile saved: " + fileToSave.toString());
+     setTitle("SDC Editor 1.0 " + fileToSave.toString());
     }
     catch (Exception SaveException) {}
+      
       }
     }
   });
@@ -383,7 +347,6 @@ if (userSelection == JFileChooser.APPROVE_OPTION) {
    Action buildAction = new AbstractAction("Build", buildIcon) {
    	public void actionPerformed(ActionEvent e) {
   
-       
        JFrame buildFrame = new JFrame();
        JPanel buildPanel = new JPanel();
        JTextArea console = new JTextArea(25, 100);
@@ -396,7 +359,7 @@ if (userSelection == JFileChooser.APPROVE_OPTION) {
        JScrollPane sp = new JScrollPane(console);
        console.setBackground(new Color(8,44,191));
        console.setForeground(Color.green);
-       buildFrame.setIconImage(new ImageIcon(getClass().getResource("..\\resources\\sdce.png")).getImage());
+       buildFrame.setIconImage(new ImageIcon(getClass().getResource("sdce.png")).getImage());
        buildPanel.add(sp);
        buildFrame.setSize(900,750);
        buildFrame.setResizable(false);
